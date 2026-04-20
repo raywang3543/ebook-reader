@@ -15,7 +15,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  // 原生平台使用 path，Web 平台使用 bytes
   String? _bookPath;
   Uint8List? _bookBytes;
   String? _bookName;
@@ -87,9 +86,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     }
     if (!musicOk && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('⚠️ 音频加载失败，请使用 mp3/flac/wav 等标准格式'),
-          backgroundColor: Colors.orange,
+        SnackBar(
+          content: const Text('音频加载失败，请使用 mp3/flac/wav 等标准格式'),
+          backgroundColor: const Color(0xFF1D1D1F),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(16),
         ),
       );
     }
@@ -99,73 +102,124 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F7),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text('📚', style: TextStyle(fontSize: 72)),
-                  const SizedBox(height: 16),
-                  Text(
-                    '电子书阅读器',
-                    style: theme.textTheme.headlineMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                  // App icon
+                  Container(
+                    width: 88,
+                    height: 88,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(22),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x22000000),
+                          blurRadius: 30,
+                          offset: Offset(3, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.book_rounded,
+                      size: 46,
+                      color: Color(0xFF0071E3),
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '上传您的小说文件，随时随地开始阅读',
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: Colors.grey),
+                  const SizedBox(height: 36),
+
+                  // Headline — SF Pro Display style: tight, bold
+                  const Text(
+                    '电子书阅读器',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1D1D1F),
+                      letterSpacing: -1.0,
+                      height: 1.10,
+                    ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 12),
+                  const Text(
+                    '上传您的小说文件，开始沉浸式阅读',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0x99000000),
+                      height: 1.47,
+                      letterSpacing: -0.374,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
 
-                  // Book upload
+                  const SizedBox(height: 52),
+
+                  // Upload cards
                   _UploadCard(
-                    icon: Icons.menu_book_rounded,
+                    icon: Icons.book_outlined,
                     title: '选择小说文件',
-                    subtitle: _bookName ?? '支持 .txt 格式',
+                    subtitle: _bookName ?? '支持 TXT 格式',
                     onTap: _pickBook,
                     isSelected: _bookReady,
                   ),
-                  const SizedBox(height: 16),
-
-                  // Music upload (optional)
+                  const SizedBox(height: 10),
                   _UploadCard(
-                    icon: Icons.music_note_rounded,
-                    title: '添加背景音乐（可选）',
-                    subtitle: _musicName ?? '支持 mp3、ogg、wav 等格式',
+                    icon: Icons.music_note_outlined,
+                    title: '添加背景音乐',
+                    subtitle: _musicName ?? '可选 · 支持 MP3、WAV、OGG',
                     onTap: _pickMusic,
-                    isSelected: kIsWeb ? _musicBytes != null : _musicPath != null,
+                    isSelected:
+                        kIsWeb ? _musicBytes != null : _musicPath != null,
                   ),
+
                   const SizedBox(height: 40),
 
+                  // Primary CTA — Apple Blue, 12px radius
                   SizedBox(
                     width: double.infinity,
-                    height: 52,
-                    child: FilledButton(
+                    height: 50,
+                    child: ElevatedButton(
                       onPressed:
                           _bookReady && !_isLoading ? _startReading : null,
-                      style: FilledButton.styleFrom(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0071E3),
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor:
+                            const Color(0xFF0071E3).withValues(alpha: 0.3),
+                        disabledForegroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
                       ),
                       child: _isLoading
                           ? const SizedBox(
-                              width: 24,
-                              height: 24,
+                              width: 20,
+                              height: 20,
                               child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2.5),
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
                             )
-                          : const Text('开始阅读',
-                              style: TextStyle(fontSize: 17)),
+                          : const Text(
+                              '开始阅读',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.374,
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -195,63 +249,98 @@ class _UploadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final primary = theme.colorScheme.primary;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: isSelected ? primary.withValues(alpha: 0.08) : null,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isSelected ? primary : Colors.grey.withValues(alpha: 0.35),
-            width: isSelected ? 2 : 1,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: isSelected
+            ? Border.all(color: const Color(0xFF0071E3), width: 1.5)
+            : null,
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0F000000),
+            blurRadius: 8,
+            offset: Offset(0, 2),
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? primary.withValues(alpha: 0.15)
-                    : Colors.grey.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon,
-                  color: isSelected ? primary : Colors.grey, size: 26),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: isSelected ? primary : null,
-                    ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          splashColor: const Color(0xFF0071E3).withValues(alpha: 0.06),
+          highlightColor: const Color(0xFF0071E3).withValues(alpha: 0.04),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+            child: Row(
+              children: [
+                // Icon container
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? const Color(0xFF0071E3).withValues(alpha: 0.10)
+                        : const Color(0xFFF5F5F7),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    overflow: TextOverflow.ellipsis,
+                  child: Icon(
+                    icon,
+                    size: 22,
+                    color: isSelected
+                        ? const Color(0xFF0071E3)
+                        : const Color(0xFF8E8E93),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 14),
+
+                // Text
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: isSelected
+                              ? const Color(0xFF0071E3)
+                              : const Color(0xFF1D1D1F),
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF8E8E93),
+                          letterSpacing: -0.2,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Status icon
+                const SizedBox(width: 8),
+                Icon(
+                  isSelected
+                      ? Icons.check_circle_rounded
+                      : Icons.add_circle_outline_rounded,
+                  size: 22,
+                  color: isSelected
+                      ? const Color(0xFF0071E3)
+                      : const Color(0xFFD1D1D6),
+                ),
+              ],
             ),
-            Icon(
-              isSelected ? Icons.check_circle : Icons.add_circle_outline,
-              color: isSelected ? primary : Colors.grey,
-            ),
-          ],
+          ),
         ),
       ),
     );
