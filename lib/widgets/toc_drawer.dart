@@ -11,7 +11,6 @@ class TocDrawer extends StatelessWidget {
     final provider = context.watch<ReaderProvider>();
 
     final Color bgColor;
-    final Color headerBg;
     final Color primaryText;
     final Color secondaryText;
     final Color accentColor;
@@ -20,70 +19,96 @@ class TocDrawer extends StatelessWidget {
 
     switch (provider.theme) {
       case AppTheme.dark:
-        bgColor = const Color(0xFF1C1C1E);
-        headerBg = const Color(0xFF000000);
-        primaryText = const Color(0xFFFFFFFF);
-        secondaryText = const Color(0xFF8E8E93);
-        accentColor = const Color(0xFF2997FF);
-        activeRowBg = const Color(0xFF2997FF).withValues(alpha: 0.12);
-        separatorColor = const Color(0xFF38383A);
+        bgColor = const Color(0xFF1E1B2E);
+        primaryText = const Color(0xFFFFF6EC);
+        secondaryText = const Color(0xFF8A8398);
+        accentColor = const Color(0xFFFFD23F);
+        activeRowBg = const Color(0xFFFFD23F).withValues(alpha: 0.10);
+        separatorColor = const Color(0xFF3A3650);
         break;
       case AppTheme.sepia:
-        bgColor = const Color(0xFFF4E4C1);
-        headerBg = const Color(0xFF3D2B1F);
+        bgColor = const Color(0xFFFFE8D6);
         primaryText = const Color(0xFF3D2B1F);
-        secondaryText = const Color(0xFF8B6914).withValues(alpha: 0.7);
-        accentColor = const Color(0xFF8B6914);
-        activeRowBg = const Color(0xFF8B6914).withValues(alpha: 0.10);
-        separatorColor = const Color(0x33D4A853);
+        secondaryText = const Color(0xFFE8362A).withValues(alpha: 0.7);
+        accentColor = const Color(0xFFE8362A);
+        activeRowBg = const Color(0xFFE8362A).withValues(alpha: 0.10);
+        separatorColor = const Color(0x33E76F51);
         break;
       case AppTheme.light:
-        bgColor = const Color(0xFFF5F5F7);
-        headerBg = const Color(0xFF1D1D1F);
-        primaryText = const Color(0xFF1D1D1F);
-        secondaryText = const Color(0xFF8E8E93);
-        accentColor = const Color(0xFF0071E3);
-        activeRowBg = const Color(0xFF0071E3).withValues(alpha: 0.08);
+        bgColor = const Color(0xFFFFF6EC);
+        primaryText = const Color(0xFF1E1B2E);
+        secondaryText = const Color(0xFF8A8398);
+        accentColor = const Color(0xFFFF5A4E);
+        activeRowBg = const Color(0xFFFF5A4E).withValues(alpha: 0.08);
         separatorColor = const Color(0x1A000000);
     }
 
     return Drawer(
       backgroundColor: bgColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
       child: SafeArea(
         child: Column(
           children: [
-            // Header — dark background, book info
+            // Header — ink→violet gradient with sun glow
             Container(
               width: double.infinity,
-              color: headerBg,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                  const EdgeInsets.fromLTRB(22, 50, 22, 22),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF1E1B2E), Color(0xFF7C5CFF)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  const Icon(Icons.book_rounded,
-                      color: Colors.white54, size: 28),
-                  const SizedBox(height: 12),
-                  Text(
-                    provider.bookName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.5,
-                      height: 1.2,
+                  // Sun glow in top-right corner
+                  Positioned(
+                    top: -30,
+                    right: -20,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [Color(0x66FFD23F), Colors.transparent],
+                        ),
+                      ),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '共 ${provider.chapters.length} 章',
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 13,
-                      letterSpacing: -0.2,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.book_rounded,
+                          color: Color(0xFFFFD23F), size: 32),
+                      const SizedBox(height: 12),
+                      Text(
+                        provider.bookName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0,
+                          height: 1.2,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '共 ${provider.chapters.length} 章',
+                        style: const TextStyle(
+                          color: Colors.white60,
+                          fontSize: 12,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -92,12 +117,12 @@ class TocDrawer extends StatelessWidget {
             // Chapter list
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 itemCount: provider.chapters.length,
                 separatorBuilder: (_, __) => Divider(
                   height: 0.5,
                   thickness: 0.5,
-                  indent: 54,
+                  indent: 58,
                   color: separatorColor,
                 ),
                 itemBuilder: (context, index) {
@@ -109,45 +134,76 @@ class TocDrawer extends StatelessWidget {
                         context.read<ReaderProvider>().jumpToChapter(index);
                         Navigator.of(context).pop();
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 12),
-                        child: Row(
-                          children: [
-                            // Chapter index indicator
-                            SizedBox(
-                              width: 28,
-                              child: isActive
-                                  ? Icon(Icons.bookmark_rounded,
-                                      color: accentColor, size: 16)
-                                  : Text(
-                                      '${index + 1}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: secondaryText,
-                                        letterSpacing: -0.15,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                provider.chapters[index].title,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: isActive ? accentColor : primaryText,
-                                  fontWeight: isActive
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
-                                  letterSpacing: -0.224,
+                      child: Stack(
+                        children: [
+                          // Left accent bar for active chapter
+                          if (isActive)
+                            Positioned(
+                              left: 0,
+                              top: 8,
+                              bottom: 8,
+                              child: Container(
+                                width: 3,
+                                decoration: BoxDecoration(
+                                  color: accentColor,
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(3),
+                                    bottomRight: Radius.circular(3),
+                                  ),
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
                               ),
                             ),
-                          ],
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 14),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 28,
+                                  child: isActive
+                                      ? Icon(Icons.bookmark_rounded,
+                                          color: accentColor, size: 18)
+                                      : Text(
+                                          (index + 1)
+                                              .toString()
+                                              .padLeft(2, '0'),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: secondaryText,
+                                            fontFamily: 'monospace',
+                                            letterSpacing: 0.2,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        provider.chapters[index].title,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: isActive
+                                              ? accentColor
+                                              : primaryText,
+                                          fontWeight: isActive
+                                              ? FontWeight.w700
+                                              : FontWeight.w400,
+                                          letterSpacing: 0,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );

@@ -62,6 +62,36 @@ class _ReaderScreenState extends State<ReaderScreen> {
           children: [
             const _ReaderBody(),
 
+            // Floating back button
+            Positioned(
+              top: 110,
+              left: 14,
+              child: SafeArea(
+                bottom: false,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).maybePop(),
+                  child: Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E1B2E),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              const Color(0xFF1E1B2E).withValues(alpha: 0.30),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        )
+                      ],
+                    ),
+                    child: const Icon(Icons.arrow_back_rounded,
+                        color: Colors.white, size: 18),
+                  ),
+                ),
+              ),
+            ),
+
             // Settings backdrop
             if (_showSettings)
               Positioned.fill(
@@ -116,18 +146,18 @@ class _FrostedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     switch (appTheme) {
       case AppTheme.dark:
-        bgColor = const Color(0xCC000000);
-        fgColor = Colors.white;
-        borderColor = const Color(0xFF38383A);
+        bgColor = const Color(0xCC1E1B2E);
+        fgColor = const Color(0xFFFFF6EC);
+        borderColor = const Color(0xFF3A3650);
         break;
       case AppTheme.sepia:
-        bgColor = const Color(0xCCF4E4C1);
+        bgColor = const Color(0xCCFFE8D6);
         fgColor = const Color(0xFF3D2B1F);
-        borderColor = const Color(0x33D4A853);
+        borderColor = const Color(0x33E76F51);
         break;
       case AppTheme.light:
-        bgColor = const Color(0xCCF5F5F7);
-        fgColor = const Color(0xFF1D1D1F);
+        bgColor = const Color(0xCCFFFFFF);
+        fgColor = const Color(0xFF1E1B2E);
         borderColor = const Color(0x1A000000);
     }
 
@@ -166,7 +196,7 @@ class _FrostedAppBar extends StatelessWidget implements PreferredSizeWidget {
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: fgColor,
-                            letterSpacing: -0.3,
+                            letterSpacing: 0,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -175,7 +205,7 @@ class _FrostedAppBar extends StatelessWidget implements PreferredSizeWidget {
                           style: TextStyle(
                             fontSize: 11,
                             color: fgColor.withValues(alpha: 0.55),
-                            letterSpacing: -0.15,
+                            letterSpacing: 0.1,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -214,19 +244,19 @@ class _ReaderBody extends StatelessWidget {
 
     switch (provider.theme) {
       case AppTheme.dark:
-        bgColor = const Color(0xFF000000);
-        textColor = const Color(0xFFE5E5EA);
-        titleColor = const Color(0xFF2997FF);
+        bgColor = const Color(0xFF1E1B2E);
+        textColor = const Color(0xFFFFF6EC);
+        titleColor = const Color(0xFFFFD23F);
         break;
       case AppTheme.sepia:
-        bgColor = const Color(0xFFF4E4C1);
+        bgColor = const Color(0xFFFFE8D6);
         textColor = const Color(0xFF3D2B1F);
-        titleColor = const Color(0xFF8B6914);
+        titleColor = const Color(0xFFE8362A);
         break;
       case AppTheme.light:
         bgColor = const Color(0xFFFFFFFF);
-        textColor = const Color(0xFF1D1D1F);
-        titleColor = const Color(0xFF0071E3);
+        textColor = const Color(0xFF1E1B2E);
+        titleColor = const Color(0xFFFF5A4E);
     }
 
     return GestureDetector(
@@ -259,29 +289,29 @@ class _ReaderBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Chapter title — Apple Display style: tight, semibold
+                  // Chapter title
                   Text(
                     provider.currentChapterTitle,
                     style: TextStyle(
-                      fontSize: provider.fontSize * 1.1,
-                      fontWeight: FontWeight.w600,
+                      fontSize: provider.fontSize * 1.15,
+                      fontWeight: FontWeight.w700,
                       color: titleColor,
-                      letterSpacing: -0.5,
-                      height: 1.14,
+                      letterSpacing: 0,
+                      height: 1.2,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 18),
 
-                  // Page content — Apple Text style: comfortable, tracking tight
+                  // Page content
                   Expanded(
                     child: Text(
                       provider.currentPageContent,
                       style: TextStyle(
                         fontSize: provider.fontSize,
-                        height: 1.8,
+                        height: 1.85,
                         color: textColor,
-                        letterSpacing: -0.374,
+                        letterSpacing: 0.2,
                       ),
                     ),
                   ),
@@ -312,36 +342,54 @@ class _ReaderNavBar extends StatelessWidget {
 
     switch (provider.theme) {
       case AppTheme.dark:
-        bgColor = const Color(0xFF1C1C1E);
-        fgColor = const Color(0xFFFFFFFF);
-        subtleColor = const Color(0xFF8E8E93);
-        accentColor = const Color(0xFF2997FF);
-        borderColor = const Color(0xFF38383A);
+        bgColor = const Color(0xFF1E1B2E);
+        fgColor = const Color(0xFFFFF6EC);
+        subtleColor = const Color(0xFF8A8398);
+        accentColor = const Color(0xFFFFD23F);
+        borderColor = const Color(0xFF3A3650);
         break;
       case AppTheme.sepia:
-        bgColor = const Color(0xFFEED9A8);
+        bgColor = const Color(0xFFFFE0CC);
         fgColor = const Color(0xFF3D2B1F);
-        subtleColor = const Color(0xFF8B6914).withValues(alpha: 0.6);
-        accentColor = const Color(0xFF8B6914);
-        borderColor = const Color(0x33D4A853);
+        subtleColor = const Color(0xFFE8362A).withValues(alpha: 0.6);
+        accentColor = const Color(0xFFE8362A);
+        borderColor = const Color(0x33E76F51);
         break;
       case AppTheme.light:
         bgColor = const Color(0xFFFFFFFF);
-        fgColor = const Color(0xFF1D1D1F);
-        subtleColor = const Color(0xFF8E8E93);
-        accentColor = const Color(0xFF0071E3);
+        fgColor = const Color(0xFF1E1B2E);
+        subtleColor = const Color(0xFF8A8398);
+        accentColor = const Color(0xFFFF5A4E);
         borderColor = const Color(0x1A000000);
     }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Thin progress line — Apple Blue
-        LinearProgressIndicator(
-          value: provider.progressPercent,
-          minHeight: 2,
-          backgroundColor: borderColor,
-          valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+        // Gradient progress bar
+        SizedBox(
+          height: 3,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Container(color: borderColor),
+              FractionallySizedBox(
+                widthFactor: provider.progressPercent.clamp(0.0, 1.0),
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [accentColor, const Color(0xFFFFD23F)],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
 
         Container(
@@ -372,9 +420,9 @@ class _ReaderNavBar extends StatelessWidget {
                       '${provider.currentPageNumber} / ${provider.totalPages}',
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         color: fgColor,
-                        letterSpacing: -0.2,
+                        letterSpacing: 0.2,
                       ),
                     ),
                     Text(
@@ -382,7 +430,7 @@ class _ReaderNavBar extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         color: subtleColor,
-                        letterSpacing: -0.15,
+                        letterSpacing: 0.1,
                       ),
                     ),
                   ],

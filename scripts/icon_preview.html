@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>书房 · 图标预览</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #F0EEE8;
+    font-family: -apple-system, "SF Pro Display", "PingFang SC", sans-serif;
+    color: #1E1B2E;
+    min-height: 100vh;
+    padding: 48px 32px 80px;
+  }
+  h1 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.6px;
+    margin-bottom: 6px;
+  }
+  h1 em { font-style: normal; color: #FF5A4E; }
+  .sub { font-size: 14px; color: #8A8398; margin-bottom: 48px; }
+
+  .section { margin-bottom: 52px; }
+  .section-title {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.4px;
+    text-transform: uppercase; color: #8A8398; margin-bottom: 18px;
+  }
+
+  .grid { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px; }
+
+  .icon-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .icon-cell span {
+    font-size: 10px; font-weight: 600; color: #8A8398;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* iOS squircle clip */
+  .clip-ios {
+    border-radius: 22.37%;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(30,27,46,0.18);
+  }
+  /* Android full-round clip */
+  .clip-android {
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(30,27,46,0.14);
+  }
+  /* macOS rounded rect */
+  .clip-macos {
+    border-radius: 22%;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(30,27,46,0.22);
+  }
+  /* No clip – raw icon */
+  .clip-none {
+    box-shadow: 0 2px 8px rgba(30,27,46,0.10);
+  }
+
+  /* Wallpaper mockup backgrounds */
+  .bg-dark  { background: #1E1B2E; padding: 24px; border-radius: 20px; }
+  .bg-light { background: #F2F2F7; padding: 24px; border-radius: 20px; }
+  .bg-warm  { background: #E8DFD0; padding: 24px; border-radius: 20px; }
+
+  .wallpaper-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .wallpaper-block { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .wallpaper-label { font-size: 11px; color: #8A8398; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<h1>书房 · <em>Icon 预览</em></h1>
+<p class="sub">图标预览 — 所有平台已写入</p>
+
+<!-- iOS sizes -->
+<div class="section">
+  <div class="section-title">iOS — 方形 (系统自动添加 squircle 遮罩)</div>
+  <div class="grid">
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" width="120" height="120"></div>
+      <span>1024</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" width="80" height="80"></div>
+      <span>180 · 60@3x</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" width="60" height="60"></div>
+      <span>80 · 40@2x</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" width="44" height="44"></div>
+      <span>58 · 29@2x</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" width="30" height="30"></div>
+      <span>40 · 20@2x</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" width="20" height="20"></div>
+      <span>20</span>
+    </div>
+  </div>
+</div>
+
+<!-- macOS sizes -->
+<div class="section">
+  <div class="section-title">macOS</div>
+  <div class="grid">
+    <div class="icon-cell">
+      <div class="clip-macos"><img src="../macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" width="100" height="100"></div>
+      <span>256</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-macos"><img src="../macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" width="72" height="72"></div>
+      <span>128</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-macos"><img src="../macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" width="52" height="52"></div>
+      <span>64</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-macos"><img src="../macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" width="32" height="32"></div>
+      <span>32</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-macos"><img src="../macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" width="16" height="16"></div>
+      <span>16</span>
+    </div>
+  </div>
+</div>
+
+<!-- Android sizes -->
+<div class="section">
+  <div class="section-title">Android (系统裁为圆形)</div>
+  <div class="grid">
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="80" height="80"></div>
+      <span>192 · xxxhdpi</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" width="60" height="60"></div>
+      <span>144 · xxhdpi</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" width="48" height="48"></div>
+      <span>96 · xhdpi</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../android/app/src/main/res/mipmap-hdpi/ic_launcher.png" width="36" height="36"></div>
+      <span>72 · hdpi</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../android/app/src/main/res/mipmap-mdpi/ic_launcher.png" width="24" height="24"></div>
+      <span>48 · mdpi</span>
+    </div>
+  </div>
+</div>
+
+<!-- Web -->
+<div class="section">
+  <div class="section-title">Web — favicon · PWA</div>
+  <div class="grid">
+    <div class="icon-cell">
+      <div class="clip-none"><img src="../web/icons/Icon-512.png" width="80" height="80"></div>
+      <span>512</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-none"><img src="../web/icons/Icon-192.png" width="56" height="56"></div>
+      <span>192</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-none"><img src="../web/favicon.png" width="32" height="32"></div>
+      <span>32 · favicon</span>
+    </div>
+    <div class="icon-cell" style="margin-left: 24px;">
+      <div class="clip-android"><img src="../web/icons/Icon-maskable-512.png" width="80" height="80"></div>
+      <span>maskable-512</span>
+    </div>
+    <div class="icon-cell">
+      <div class="clip-android"><img src="../web/icons/Icon-maskable-192.png" width="56" height="56"></div>
+      <span>maskable-192</span>
+    </div>
+  </div>
+</div>
+
+<!-- Wallpaper context -->
+<div class="section">
+  <div class="section-title">实机壁纸场景模拟</div>
+  <div class="wallpaper-row">
+    <div class="wallpaper-block">
+      <div class="bg-dark">
+        <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" width="76" height="76"></div>
+      </div>
+      <span class="wallpaper-label">夜间壁纸</span>
+    </div>
+    <div class="wallpaper-block">
+      <div class="bg-light">
+        <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" width="76" height="76"></div>
+      </div>
+      <span class="wallpaper-label">浅色壁纸</span>
+    </div>
+    <div class="wallpaper-block">
+      <div class="bg-warm">
+        <div class="clip-ios"><img src="../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" width="76" height="76"></div>
+      </div>
+      <span class="wallpaper-label">暖色壁纸</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

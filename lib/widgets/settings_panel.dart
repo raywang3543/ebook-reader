@@ -5,10 +5,35 @@ import 'package:provider/provider.dart';
 
 import '../providers/reader_provider.dart';
 
-class SettingsPanel extends StatelessWidget {
+class SettingsPanel extends StatefulWidget {
   final VoidCallback onClose;
 
   const SettingsPanel({super.key, required this.onClose});
+
+  @override
+  State<SettingsPanel> createState() => _SettingsPanelState();
+}
+
+class _SettingsPanelState extends State<SettingsPanel>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _eqCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _eqCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _eqCtrl.dispose();
+    super.dispose();
+  }
+
+  VoidCallback get onClose => widget.onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +48,28 @@ class SettingsPanel extends StatelessWidget {
 
     switch (provider.theme) {
       case AppTheme.dark:
-        bgColor = const Color(0xFF1C1C1E);
-        surfaceColor = const Color(0xFF2C2C2E);
-        primaryText = const Color(0xFFFFFFFF);
-        secondaryText = const Color(0xFF8E8E93);
-        separatorColor = const Color(0xFF38383A);
-        accentColor = const Color(0xFF2997FF);
+        bgColor = const Color(0xFF1E1B2E);
+        surfaceColor = const Color(0xFF2A273A);
+        primaryText = const Color(0xFFFFF6EC);
+        secondaryText = const Color(0xFF8A8398);
+        separatorColor = const Color(0xFF3A3650);
+        accentColor = const Color(0xFFFFD23F);
         break;
       case AppTheme.sepia:
-        bgColor = const Color(0xFFEED9A8);
-        surfaceColor = const Color(0xFFF4E4C1);
+        bgColor = const Color(0xFFFFE0CC);
+        surfaceColor = const Color(0xFFFFE8D6);
         primaryText = const Color(0xFF3D2B1F);
-        secondaryText = const Color(0xFF8B6914).withValues(alpha: 0.7);
-        separatorColor = const Color(0x33D4A853);
-        accentColor = const Color(0xFF8B6914);
+        secondaryText = const Color(0xFFE8362A).withValues(alpha: 0.7);
+        separatorColor = const Color(0x33E76F51);
+        accentColor = const Color(0xFFE8362A);
         break;
       case AppTheme.light:
-        bgColor = const Color(0xFFF5F5F7);
+        bgColor = const Color(0xFFFFF6EC);
         surfaceColor = const Color(0xFFFFFFFF);
-        primaryText = const Color(0xFF1D1D1F);
-        secondaryText = const Color(0xFF8E8E93);
+        primaryText = const Color(0xFF1E1B2E);
+        secondaryText = const Color(0xFF8A8398);
         separatorColor = const Color(0x1A000000);
-        accentColor = const Color(0xFF0071E3);
+        accentColor = const Color(0xFFFF5A4E);
     }
 
     return ClipRect(
@@ -58,7 +83,7 @@ class SettingsPanel extends StatelessWidget {
               children: [
                 // Header
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 8, 16),
+                  padding: const EdgeInsets.fromLTRB(22, 16, 10, 16),
                   decoration: BoxDecoration(
                     color: surfaceColor,
                     border: Border(
@@ -73,20 +98,19 @@ class SettingsPanel extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: primaryText,
-                          letterSpacing: -0.5,
+                          letterSpacing: 0,
                         ),
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: Icon(Icons.close_rounded,
-                            color: secondaryText, size: 20),
+                        icon: const Icon(Icons.close_rounded,
+                            color: Colors.white, size: 14),
                         onPressed: onClose,
                         style: IconButton.styleFrom(
-                          backgroundColor:
-                              secondaryText.withValues(alpha: 0.12),
+                          backgroundColor: accentColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(6),
-                          minimumSize: const Size(32, 32),
+                          minimumSize: const Size(36, 36),
                         ),
                       ),
                     ],
@@ -107,8 +131,7 @@ class SettingsPanel extends StatelessWidget {
                             label: '浅色',
                             appTheme: AppTheme.light,
                             bgColor: const Color(0xFFFFFFFF),
-                            textColor: const Color(0xFF1D1D1F),
-                            dotColor: const Color(0xFF0071E3),
+                            dotColor: const Color(0xFFFF5A4E),
                             primaryText: primaryText,
                             accentColor: accentColor,
                             separatorColor: separatorColor,
@@ -117,9 +140,8 @@ class SettingsPanel extends StatelessWidget {
                           _ThemeRow(
                             label: '深色',
                             appTheme: AppTheme.dark,
-                            bgColor: const Color(0xFF1C1C1E),
-                            textColor: const Color(0xFFFFFFFF),
-                            dotColor: const Color(0xFF2997FF),
+                            bgColor: const Color(0xFF1E1B2E),
+                            dotColor: const Color(0xFFFFD23F),
                             primaryText: primaryText,
                             accentColor: accentColor,
                             separatorColor: separatorColor,
@@ -128,9 +150,8 @@ class SettingsPanel extends StatelessWidget {
                           _ThemeRow(
                             label: '米黄',
                             appTheme: AppTheme.sepia,
-                            bgColor: const Color(0xFFF4E4C1),
-                            textColor: const Color(0xFF3D2B1F),
-                            dotColor: const Color(0xFF8B6914),
+                            bgColor: const Color(0xFFFFE8D6),
+                            dotColor: const Color(0xFFE8362A),
                             primaryText: primaryText,
                             accentColor: accentColor,
                             separatorColor: separatorColor,
@@ -161,15 +182,25 @@ class SettingsPanel extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: primaryText,
-                                        letterSpacing: -0.3,
+                                        letterSpacing: 0,
                                       ),
                                     ),
-                                    Text(
-                                      '${provider.fontSize.round()} pt',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: secondaryText,
-                                        letterSpacing: -0.224,
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: accentColor,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Text(
+                                        '${provider.fontSize.round()} pt',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          fontFamily: 'monospace',
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -227,35 +258,91 @@ class SettingsPanel extends StatelessWidget {
                             )
                           else ...[
                             // Play / Pause row
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () =>
-                                    context.read<ReaderProvider>().toggleMusic(),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18, vertical: 14),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        provider.isMusicPlaying
-                                            ? Icons.pause_circle_rounded
-                                            : Icons.play_circle_rounded,
-                                        color: accentColor,
-                                        size: 28,
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        provider.isMusicPlaying ? '暂停播放' : '播放音乐',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: primaryText,
-                                          letterSpacing: -0.3,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 14),
+                              child: Row(
+                                children: [
+                                  // Gradient play button
+                                  GestureDetector(
+                                    onTap: () => context
+                                        .read<ReaderProvider>()
+                                        .toggleMusic(),
+                                    child: Container(
+                                      width: 44,
+                                      height: 44,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            const Color(0xFF7C5CFF),
+                                            accentColor,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
                                         ),
+                                        shape: BoxShape.circle,
+                                        boxShadow: provider.isMusicPlaying
+                                            ? [
+                                                BoxShadow(
+                                                  color: accentColor
+                                                      .withValues(alpha: 0.33),
+                                                  blurRadius: 18,
+                                                  offset: const Offset(0, 6),
+                                                )
+                                              ]
+                                            : null,
                                       ),
-                                    ],
+                                      child: Icon(
+                                        provider.isMusicPlaying
+                                            ? Icons.pause_rounded
+                                            : Icons.play_arrow_rounded,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '背景音乐',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            color: primaryText,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 3),
+                                        if (provider.isMusicPlaying)
+                                          Row(
+                                            children: [
+                                              _EqBars(
+                                                  controller: _eqCtrl,
+                                                  color: accentColor),
+                                              const SizedBox(width: 6),
+                                              Text(
+                                                '正在播放',
+                                                style: TextStyle(
+                                                    fontSize: 11,
+                                                    color: secondaryText),
+                                              ),
+                                            ],
+                                          )
+                                        else
+                                          Text(
+                                            '已暂停',
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: secondaryText),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Divider(
@@ -310,14 +397,14 @@ class SettingsPanel extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     const Icon(Icons.delete_outline_rounded,
-                                        color: Color(0xFFFF3B30), size: 20),
+                                        color: Color(0xFFFF6B6B), size: 20),
                                     const SizedBox(width: 12),
                                     const Text(
                                       '清除所有数据',
                                       style: TextStyle(
                                         fontSize: 16,
-                                        color: Color(0xFFFF3B30),
-                                        letterSpacing: -0.3,
+                                        color: Color(0xFFFF6B6B),
+                                        letterSpacing: 0,
                                       ),
                                     ),
                                     const Spacer(),
@@ -346,20 +433,20 @@ class SettingsPanel extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
           '清除所有数据',
-          style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: -0.3),
+          style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0),
         ),
         content: const Text(
           '将清除所有阅读进度和设置，此操作不可撤销。',
-          style: TextStyle(fontSize: 14, color: Color(0xFF8E8E93)),
+          style: TextStyle(fontSize: 14, color: Color(0xFF8C8594)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: const Text('取消',
-                style: TextStyle(color: Color(0xFF0071E3))),
+                style: TextStyle(color: Color(0xFFFF7A5C), fontWeight: FontWeight.w600)),
           ),
           TextButton(
             onPressed: () {
@@ -370,7 +457,7 @@ class SettingsPanel extends StatelessWidget {
             child: const Text(
               '清除',
               style: TextStyle(
-                  color: Color(0xFFFF3B30), fontWeight: FontWeight.w600),
+                  color: Color(0xFFFF6B6B), fontWeight: FontWeight.w700),
             ),
           ),
         ],
@@ -380,6 +467,54 @@ class SettingsPanel extends StatelessWidget {
 }
 
 // ─── Reusable sub-widgets ─────────────────────────────────────────────────────
+
+class _EqBars extends StatelessWidget {
+  final AnimationController controller;
+  final Color color;
+
+  const _EqBars({required this.controller, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final t = controller.value;
+        final h1 = 4.0 + t * 6.0;
+        final h2 = 8.0 - t * 5.0;
+        final h3 = 5.0 + t * 4.0;
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            _Bar(height: h1, color: color),
+            const SizedBox(width: 2),
+            _Bar(height: h2, color: color),
+            const SizedBox(width: 2),
+            _Bar(height: h3, color: color),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _Bar extends StatelessWidget {
+  final double height;
+  final Color color;
+  const _Bar({required this.height, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 2,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(1),
+      ),
+    );
+  }
+}
 
 class _SectionHeader extends StatelessWidget {
   final String label;
@@ -394,10 +529,10 @@ class _SectionHeader extends StatelessWidget {
       child: Text(
         label.toUpperCase(),
         style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
           color: color,
-          letterSpacing: 0.5,
+          letterSpacing: 1.2,
         ),
       ),
     );
@@ -420,11 +555,11 @@ class _GroupCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           decoration: BoxDecoration(
             color: surfaceColor,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Column(children: children),
         ),
@@ -437,7 +572,6 @@ class _ThemeRow extends StatelessWidget {
   final String label;
   final AppTheme appTheme;
   final Color bgColor;
-  final Color textColor;
   final Color dotColor;
   final Color primaryText;
   final Color accentColor;
@@ -448,7 +582,6 @@ class _ThemeRow extends StatelessWidget {
     required this.label,
     required this.appTheme,
     required this.bgColor,
-    required this.textColor,
     required this.dotColor,
     required this.primaryText,
     required this.accentColor,
@@ -475,11 +608,11 @@ class _ThemeRow extends StatelessWidget {
                 children: [
                   // Color preview swatch
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: 30,
+                    height: 30,
                     decoration: BoxDecoration(
                       color: bgColor,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                           color: const Color(0x1A000000), width: 0.5),
                     ),
@@ -500,7 +633,7 @@ class _ThemeRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       color: primaryText,
-                      letterSpacing: -0.3,
+                      letterSpacing: 0,
                     ),
                   ),
                   const Spacer(),
@@ -515,7 +648,7 @@ class _ThemeRow extends StatelessWidget {
           Divider(
               height: 0.5,
               thickness: 0.5,
-              indent: 60,
+              indent: 62,
               color: separatorColor),
       ],
     );
